@@ -6,7 +6,7 @@ public:
 	Player();
 	~Player();
 
-	void Update(Game &game,float elapsedTime);
+	bool Update(Game &game,float elapsedTime);
 	void Render(sf::RenderWindow &App);
 
 

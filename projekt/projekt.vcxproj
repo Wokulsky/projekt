@@ -149,7 +149,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="button.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Fireball.cpp" />
+    <ClCompile Include="Firebolt.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="main.cpp" />
@@ -163,7 +165,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="button.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Fireball.h" />
+    <ClInclude Include="Firebolt.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gamestates.h" />
     <ClInclude Include="GUI.h" />

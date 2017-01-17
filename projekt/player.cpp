@@ -17,10 +17,10 @@ Player::~Player()
 {
 }
 
-void Player::Update(Game &game,float elapsedTime) {
+bool Player::Update(Game &game,float elapsedTime) {
 	float x = this->getPosition().x;
 	float y = this->getPosition().y;
-	
+	bool shoot = false;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		y = y - speed*elapsedTime;
 	}
@@ -33,7 +33,15 @@ void Player::Update(Game &game,float elapsedTime) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		x = x + speed*elapsedTime;
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		std::cout << "SHOOT\n";
+		shoot = true;
+	}
+	else {
+		shoot = false;
+	}
 	this->setPosition(x, y);
+	return shoot;
 }
 void Player::Render(sf::RenderWindow &App) {
 	App.draw(*this);

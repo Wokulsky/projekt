@@ -4,6 +4,7 @@
 #include "gamestates.h"
 #include "player.h"
 #include "Fireball.h"
+#include "Firebolt.h"
 class playState: public gameState
 {
 public:
@@ -17,8 +18,11 @@ public:
 private:
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Weapon> weaponSlot;
+	std::unique_ptr<std::vector<Firebolt>> fireboltVector;
 	sf::Clock frameClock;
+	sf::Clock shootClock;
 	float elapsedTime;
+	float shootBuffer;
 
 };
 
