@@ -4,7 +4,7 @@
 
 Player::Player()
 {
-	speed = 0.5;
+	speed = 0.6;
 	hp = 100;
 	tex.loadFromFile("Player.png");
 	this->setTexture(tex);
@@ -15,6 +15,10 @@ Player::Player()
 
 Player::~Player()
 {
+}
+
+void Player::DrecreaseHP(int amount) {
+	hp -= amount;
 }
 
 bool Player::Update(Game &game,float elapsedTime) {
@@ -45,4 +49,7 @@ bool Player::Update(Game &game,float elapsedTime) {
 }
 void Player::Render(sf::RenderWindow &App) {
 	App.draw(*this);
+}
+int Player::getGP() {
+	return hp;
 }

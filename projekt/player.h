@@ -8,8 +8,9 @@ public:
 
 	bool Update(Game &game,float elapsedTime);
 	void Render(sf::RenderWindow &App);
+	void DrecreaseHP(int amount);
 
-
+	int getGP();
 private:
 	sf::Texture tex;
 	float speed;
