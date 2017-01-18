@@ -5,6 +5,7 @@
 Player::Player()
 {
 	speed = 0.6;
+	alive = true;
 	hp = 100;
 	tex.loadFromFile("Player.png");
 	this->setTexture(tex);
@@ -18,38 +19,50 @@ Player::~Player()
 }
 
 void Player::DrecreaseHP(int amount) {
-	hp -= amount;
+	
+	if (hp >= 0) {
+		hp -= amount;
+	}
+	else alive = false;
+	
 }
 
 bool Player::Update(Game &game,float elapsedTime) {
-	float x = this->getPosition().x;
-	float y = this->getPosition().y;
+
 	bool shoot = false;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		y = y - speed*elapsedTime;
+	if (alive) {
+
+		float x = this->getPosition().x;
+		float y = this->getPosition().y;
+
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			y = y - speed*elapsedTime;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			y = y + speed*elapsedTime;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			x = x - speed*elapsedTime;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			x = x + speed*elapsedTime;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+			//std::cout << "SHOOT\n";
+			shoot = true;
+		}
+		else {
+			shoot = false;
+		}
+		this->setPosition(x, y);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		y = y + speed*elapsedTime;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		x = x - speed*elapsedTime;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		x = x + speed*elapsedTime;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		std::cout << "SHOOT\n";
-		shoot = true;
-	}
-	else {
-		shoot = false;
-	}
-	this->setPosition(x, y);
+
 	return shoot;
 }
 void Player::Render(sf::RenderWindow &App) {
 	App.draw(*this);
 }
-int Player::getGP() {
+int Player::getHP() {
 	return hp;
 }

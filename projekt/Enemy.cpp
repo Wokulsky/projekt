@@ -2,17 +2,17 @@
 
 
 
-Enemy::Enemy()
+Enemy::Enemy(sf::Texture &tex)
 {
-	speed = 0.5;
+	speed = 0.3;
 	name = "Dragon";
 	hp = 50;
-	damage = 25;
+	damage = 10;
 	level = 1;
 
-	tex.loadFromFile("enemy.png");
+	//tex.loadFromFile("enemy.png");
 	this->setTexture(tex);
-	this->setTextureRect(sf::IntRect(0, 0, 17, 17));
+	this->setTextureRect(sf::IntRect(0, 0, 100, 100));
 }
 
 
@@ -21,20 +21,21 @@ Enemy::~Enemy()
 
 }
 void Enemy::Update(float ElapsedTime, sf::Vector2f playerPos) {
-	float x = this->getPosition().x;
-	float y = this->getPosition().y;
+	if (hp > 0) {
+		float x = this->getPosition().x;
+		float y = this->getPosition().y;
+		//Poruszanie siê wroga
+		if (x <= playerPos.x) x += speed * ElapsedTime;
+		else if (x >= playerPos.x) x -= speed * ElapsedTime;
+		if (y <= playerPos.y) y += speed * ElapsedTime;
+		else if (y >= playerPos.y) y -= speed * ElapsedTime;
 
-	if (x <= playerPos.x) x += speed * ElapsedTime;
-	else if (x >= playerPos.x) x -= speed * ElapsedTime;
-	
-	if (y <= playerPos.y) y += speed * ElapsedTime;
-	else if (y >= playerPos.y) y -= speed * ElapsedTime;
 
-	
 
-	float targetX;
+		float targetX;
 
-	this->setPosition(x,y);
+		this->setPosition(x, y);
+	}
 }
 void Enemy::Render(sf::RenderWindow &App) {
 	App.draw(*this);
@@ -69,4 +70,7 @@ void Enemy::setLevel(int set) {
 }
 void Enemy::setName(std::string name) {
 	this->name = name;
+}
+void Enemy::DecreaseHP(int set) {
+	hp -= set;
 }

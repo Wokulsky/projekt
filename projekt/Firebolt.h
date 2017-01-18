@@ -2,18 +2,19 @@
 #define FIREBOLT_H
 
 #include "game.h"
-class Firebolt
+class Firebolt: public sf::Sprite
 {
 public:
-	Firebolt(sf::Vector2f start_pos);
+	Firebolt(sf::Vector2f start_pos, sf::Texture &tex);
 	~Firebolt();
-	void Update(float ElapsedTime, Game& game);
+	bool Update(float ElapsedTime, Game& game);
 	void Render(sf::RenderWindow& App);
 
 	bool isAlive();
+	int getDamage();
 private:
-	sf::Texture tex;
-	sf::Sprite spr;
+
+	int damege;
 	float speed;
 	bool alive;
 };

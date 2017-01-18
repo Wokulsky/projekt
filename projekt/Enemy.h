@@ -4,10 +4,11 @@
 class Enemy: public sf::Sprite
 {
 public:
-	Enemy();
+	Enemy(sf::Texture &tex);
 	~Enemy();
 	void Update(float ElapsedTime, sf::Vector2f playerPos);
 	void Render(sf::RenderWindow &App);
+
 	float getSpeed();
 	int getHp();
 	int getDamage();
@@ -20,10 +21,9 @@ public:
 	void setDamage(int set);
 	void setLevel(int set);
 
+	void DecreaseHP(int set);
 private:
-	sf::Texture tex;
-	//sf::Sprite spr;
-
+	//sf::Texture tex;
 	std::string name;
 	float speed;
 	int hp;

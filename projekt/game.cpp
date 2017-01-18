@@ -15,10 +15,12 @@ void Game::Run() {
 		}
 		CurrentState->HandleEvent(*this);
 	}
+
 	CurrentState->Update(*this);
 	App.clear();
 	CurrentState->Render(App);
 	App.display();
+	//
 }
 bool Game::isRunning() {
 	return running;

@@ -10,11 +10,12 @@ public:
 	void Render(sf::RenderWindow &App);
 	void DrecreaseHP(int amount);
 
-	int getGP();
+	int getHP();
 private:
 	sf::Texture tex;
 	float speed;
 	int hp;
+	bool alive;
 };
 
 

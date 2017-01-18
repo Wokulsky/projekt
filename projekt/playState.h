@@ -12,9 +12,9 @@ public:
 	playState(sf::RenderWindow &App);
 	~playState();
 
-	void HandleEvent(Game &game);
-	void Update(Game &game);
-	void Render(sf::RenderWindow &App);
+	void HandleEvent(Game &game) override;
+	void Update(Game &game) override;
+	void Render(sf::RenderWindow &App)override;
 
 private:
 	void ChecCollision();
@@ -22,11 +22,14 @@ private:
 	std::unique_ptr<Weapon> weaponSlot;
 	std::unique_ptr<std::vector<Firebolt>> fireboltVector;
 	std::unique_ptr<std::vector<Enemy>> enemiesVector;
+
 	sf::Clock frameClock;
 	sf::Clock shootClock;
-	Enemy testEnemy;
+	//Enemy testEnemy;
 	float elapsedTime;
 	float shootBuffer;
+	sf::Texture enemyTex;
+	sf::Texture boltTex;
 
 };
 

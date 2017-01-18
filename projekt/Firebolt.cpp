@@ -2,11 +2,14 @@
 
 
 
-Firebolt::Firebolt(sf::Vector2f start_pos)
+Firebolt::Firebolt(sf::Vector2f start_pos,sf::Texture &tex)
 {
-	tex.loadFromFile("firebolt.png");
-	spr.setTexture(tex);
-	spr.setPosition(start_pos);
+	damege = 15;
+	speed = 0.5;
+	alive = true;
+	this->setTexture(tex);
+	this->setPosition(start_pos);
+	//this->setTextureRect(sf::IntRect(0, 0, 55, 60));
 }
 
 
@@ -14,15 +17,21 @@ Firebolt::~Firebolt()
 {
 }
 
-void Firebolt::Update(float ElapsedTime, Game& game){
-	float x = spr.getPosition().x;
-	float y = spr.getPosition().y;
-
-	x = x + speed*ElapsedTime;
+bool Firebolt::Update(float ElapsedTime, Game& game){
+	float x = this->getPosition().x;
+	float y = this->getPosition().y;
+	if (y < game.App.getSize().y ) 
+		y = y + speed*ElapsedTime;
+	else alive = false;
+	this->setPosition(x, y);
+	return alive;
 }
 void Firebolt::Render(sf::RenderWindow& App) {
-	App.draw(spr);
+	App.draw(*this);
 }
 bool Firebolt::isAlive() {
 	return alive;
+}
+int Firebolt::getDamage() {
+	return damege;
 }

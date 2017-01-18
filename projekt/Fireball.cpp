@@ -4,7 +4,8 @@
 
 Fireball::Fireball()
 {
-	setFirerate(100);
+
+	setFirerate(500);
 	tex.loadFromFile("fire.png");
 	spr.setTexture(tex);
 }
