@@ -1,6 +1,10 @@
 #ifndef ENEMY_H
 #define ENEMY_H
+
 #include "game.h"
+#include "Animation.h"
+#include <memory>
+#define BufferSize 450
 class Enemy: public sf::Sprite
 {
 public:
@@ -29,6 +33,11 @@ private:
 	int hp;
 	int damage;
 	int level;
+	std::shared_ptr<Animation> animation;
+	int row;
+	int animationBuffer;
+	bool flagAnimation;
+
 };
 
 #endif

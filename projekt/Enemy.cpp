@@ -4,15 +4,20 @@
 
 Enemy::Enemy(sf::Texture &tex)
 {
-	speed = 0.3;
+	speed = 0.2;
 	name = "Dragon";
-	hp = 50;
-	damage = 10;
+	hp = 150;
+	damage = 20;
 	level = 1;
-
+	row = 3;
 	//tex.loadFromFile("enemy.png");
 	this->setTexture(tex);
 	this->setTextureRect(sf::IntRect(0, 0, 100, 100));
+	animation = std::make_shared<Animation>(tex, sf::Vector2u(4, 4), 100.0);
+	//Buffer by nie by³o nag³ych zmian kierunków 
+	animationBuffer = 0;
+	//Aby nie dominowa³y dwa kierunki
+	flagAnimation = true;
 }
 
 
@@ -25,16 +30,51 @@ void Enemy::Update(float ElapsedTime, sf::Vector2f playerPos) {
 		float x = this->getPosition().x;
 		float y = this->getPosition().y;
 		//Poruszanie siê wroga
-		if (x <= playerPos.x) x += speed * ElapsedTime;
-		else if (x >= playerPos.x) x -= speed * ElapsedTime;
-		if (y <= playerPos.y) y += speed * ElapsedTime;
-		else if (y >= playerPos.y) y -= speed * ElapsedTime;
+		if (x <= playerPos.x) {//PRAWO
+			x += speed * ElapsedTime;
+			if (animationBuffer <= 0 && flagAnimation) {
+				row = 2;
+				animationBuffer = BufferSize;
+				flagAnimation = false;
+			}
+		}
+		else if (x >= playerPos.x) {//LEWO
+			x -= speed * ElapsedTime;
+			if (animationBuffer <= 0){
+				row = 1;
+				animationBuffer = BufferSize;
+				flagAnimation = false;
+			}
+		}
+		if (y <= playerPos.y) {//GÓRA
+			y += speed * ElapsedTime;
 
+			if (animationBuffer <= 0 && !flagAnimation){
+				animationBuffer = BufferSize;
+				row = 0;
+				flagAnimation = true;
+			}
+			 
+		}
+		else if (y >= playerPos.y) {//DÓ£
+			y -= speed * ElapsedTime;
+			if (animationBuffer <= 0) { 
+				row = 3; 
+				animationBuffer = BufferSize;
+				flagAnimation = true;
+			}
+				
+		}
 
+		animationBuffer--;
 
 		float targetX;
 
 		this->setPosition(x, y);
+
+		animation->Update(row, ElapsedTime);
+		this->setTextureRect(animation->uvRect);
+
 	}
 }
 void Enemy::Render(sf::RenderWindow &App) {

@@ -2,6 +2,7 @@
 #define FIREBOLT_H
 
 #include "game.h"
+enum LastKey {Free,Down,Up,Left,Right};
 class Firebolt: public sf::Sprite
 {
 public:
@@ -17,6 +18,7 @@ private:
 	int damege;
 	float speed;
 	bool alive;
+	LastKey key;
 };
 
 #endif // !FIREBOLT_H

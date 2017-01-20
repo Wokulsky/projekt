@@ -6,7 +6,7 @@ playState::playState(sf::RenderWindow &App){
 	shootBuffer = 0;
 	weaponSlot = std::make_unique<Fireball>();
 	enemyTex.loadFromFile("enemy.png");
-	boltTex.loadFromFile("firebolt.png");
+	boltTex.loadFromFile("firebolt2.png");
 	fireboltVector = std::make_unique<std::vector<Firebolt>>();
 	enemiesVector = std::make_unique<std::vector<Enemy>>();
 	for (int i = 1; i < 2; ++i) {
@@ -35,9 +35,12 @@ void playState::Update(Game &game) {
 	shootBuffer += shootClock.getElapsedTime().asMilliseconds();
 	shootClock.restart();
 	
+	playerTime += playerClock.getElapsedTime().asMilliseconds();
+	playerClock.restart();
+
 	ChecCollision();
 	
-	if (player->Update(game, elapsedTime) && shootBuffer > weaponSlot->getFirerate()) {
+	if (player->Update(game, elapsedTime, playerTime) && shootBuffer > weaponSlot->getFirerate()) {
 		Firebolt newBolt(weaponSlot->getSprite().getPosition(),boltTex);
 		fireboltVector->push_back(newBolt);
 		shootBuffer = 0;
@@ -69,7 +72,7 @@ void playState::ChecCollision() {
 	//hitBuffer daje nam opóŸnienie - inaczej przy Ka¿dym pojedyñczym dotkniêciu hp spada do zera
 	//			z prostego powodu - odejmowanie ¿ycia wykonuje siê przy ka¿dym wywo³aniu, teraz jednak po 1000
 	for (it_enemy = enemiesVector->begin(); it_enemy != enemiesVector->end(); ++it_enemy) {
-		if (it_enemy->getHp > 0) {
+		if (it_enemy->getHp() > 0) {
 			if (player->getGlobalBounds().intersects(it_enemy->getGlobalBounds()) && hitBufferPlayer <= 0) {
 				player->DrecreaseHP(it_enemy->getDamage());
 				std::cout << player->getHP() << std::endl;

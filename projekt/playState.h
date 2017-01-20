@@ -25,9 +25,11 @@ private:
 
 	sf::Clock frameClock;
 	sf::Clock shootClock;
+	sf::Clock playerClock;
 	//Enemy testEnemy;
 	float elapsedTime;
 	float shootBuffer;
+	float playerTime;
 	sf::Texture enemyTex;
 	sf::Texture boltTex;
 
