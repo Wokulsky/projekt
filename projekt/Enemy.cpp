@@ -4,7 +4,7 @@
 
 Enemy::Enemy(sf::Texture &tex)
 {
-	speed = 0.2;
+	speed = 0.25;
 	name = "Dragon";
 	hp = 150;
 	damage = 20;
@@ -74,6 +74,7 @@ void Enemy::Update(float ElapsedTime, sf::Vector2f playerPos) {
 
 		animation->Update(row, ElapsedTime);
 		this->setTextureRect(animation->uvRect);
+		this->setScale(1.3, 1.3);
 
 	}
 }

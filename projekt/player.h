@@ -11,7 +11,7 @@ public:
 	bool Update(Game &game,float elapsedTime, float playerTime);
 	void Render(sf::RenderWindow &App);
 	void DrecreaseHP(int amount);
-
+	bool isAlive();
 	int getHP();
 private:
 	std::shared_ptr<Animation> animation;

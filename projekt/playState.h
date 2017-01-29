@@ -6,6 +6,7 @@
 #include "Fireball.h"
 #include "Firebolt.h"
 #include "Enemy.h"
+#include "hud.h"
 class playState: public gameState
 {
 public:
@@ -32,6 +33,11 @@ private:
 	float playerTime;
 	sf::Texture enemyTex;
 	sf::Texture boltTex;
+	std::unique_ptr<HUD> m_playerHUD;
+
+	sf::Text gameResultText;
+	sf::Sprite gameResultSprite;
+	sf::Font font;
 
 };
 

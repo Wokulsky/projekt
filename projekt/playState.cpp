@@ -7,6 +7,9 @@ playState::playState(sf::RenderWindow &App){
 	weaponSlot = std::make_unique<Fireball>();
 	enemyTex.loadFromFile("enemy.png");
 	boltTex.loadFromFile("firebolt2.png");
+	font.loadFromFile("Capture_it.ttf");
+	gameResultText.setColor(sf::Color::Red);
+	gameResultText.setFont(font);
 	fireboltVector = std::make_unique<std::vector<Firebolt>>();
 	enemiesVector = std::make_unique<std::vector<Enemy>>();
 	for (int i = 1; i < 2; ++i) {
@@ -16,6 +19,7 @@ playState::playState(sf::RenderWindow &App){
 		newEnemy.setPosition(x,y);
 		enemiesVector->push_back(newEnemy);
 	}
+	m_playerHUD = std::make_unique<HUD>();
 	//enemiesVector->push_back(testEnemy);
 	
 }
@@ -62,8 +66,12 @@ void playState::Update(Game &game) {
 	for (it_enemy = enemiesVector->begin(); it_enemy != enemiesVector->end(); ++it_enemy) {
 		it_enemy->Update(elapsedTime, player->getPosition());
 	}
+	if (player->getHP() <= 0) {
+		gameResultText.setString("YOUR SOUL IS MINE");
+		gameResultText.setPosition(255, 200);
+	}
 	//testEnemy.Update(elapsedTime, player->getPosition());
-
+	//std::cout << "Player position: " << player->getPosition().x << " " << player->getPosition().y << " \n";
 }
 void playState::ChecCollision() {
 	static float hitBufferPlayer = 0;
@@ -72,11 +80,12 @@ void playState::ChecCollision() {
 	//hitBuffer daje nam opóŸnienie - inaczej przy Ka¿dym pojedyñczym dotkniêciu hp spada do zera
 	//			z prostego powodu - odejmowanie ¿ycia wykonuje siê przy ka¿dym wywo³aniu, teraz jednak po 1000
 	for (it_enemy = enemiesVector->begin(); it_enemy != enemiesVector->end(); ++it_enemy) {
-		if (it_enemy->getHp() > 0) {
+		if (it_enemy->getHp() > 0 && player->isAlive()) {
 			if (player->getGlobalBounds().intersects(it_enemy->getGlobalBounds()) && hitBufferPlayer <= 0) {
 				player->DrecreaseHP(it_enemy->getDamage());
 				std::cout << player->getHP() << std::endl;
-				hitBufferPlayer = 500;
+				hitBufferPlayer = 250;
+				m_playerHUD->decraseHP();
 			}
 		}
 
@@ -109,5 +118,11 @@ void playState::Render(sf::RenderWindow &App){
 	for (it_enemy = enemiesVector->begin() ; it_enemy != enemiesVector->end(); ++it_enemy) {
 		it_enemy->Render(App);
 	}
+	m_playerHUD->Render(App);
+	if (!player->isAlive()) {
+
+		App.draw(gameResultText);
+	}
+		
 	//testEnemy.Render(App);
 }

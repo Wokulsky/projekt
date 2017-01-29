@@ -16,6 +16,8 @@ private:
 	int count;
 	std::shared_ptr<button> exitButton;
 	std::shared_ptr<button> playButton;
+	//sf::Texture tex;
+	//sf::Sprite spr;
 	bool exitClicked, playClicked;
 };
 
