@@ -7,9 +7,8 @@ Firebolt::Firebolt(sf::Vector2f start_pos,sf::Texture &tex)
 	damege = 15;
 	speed = 0.5;
 	alive = true;
-	this->setTexture(tex);
+	ChangeTexture(tex);
 	this->setPosition(start_pos);
-	this->setTextureRect(sf::IntRect(0, 0, 48, 48));
 	key = LastKey::Free;
 }
 
@@ -91,4 +90,8 @@ bool Firebolt::isAlive() {
 }
 int Firebolt::getDamage() {
 	return damege;
+}
+void Firebolt::ChangeTexture(sf::Texture &tex) {
+	this->setTexture(tex);
+	this->setTextureRect(sf::IntRect(0, 0, 48, 48));
 }

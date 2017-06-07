@@ -18,14 +18,14 @@ public:
 	int getDamage();
 	int getLevel();
 	std::string getName();
-
+	bool isAlive();
 	void setName(std::string name);
 	void setSpeed(float set);
 	void setHp(int set);
 	void setDamage(int set);
 	void setLevel(int set);
-
 	void DecreaseHP(int set);
+
 private:
 	//sf::Texture tex;
 	std::string name;

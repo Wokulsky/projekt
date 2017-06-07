@@ -10,9 +10,11 @@ public:
 	~Firebolt();
 	bool Update(float ElapsedTime, Game& game);
 	void Render(sf::RenderWindow& App);
+	void ChangeTexture(sf::Texture &tex);
 
 	bool isAlive();
 	int getDamage();
+
 private:
 
 	int damege;

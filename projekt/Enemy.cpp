@@ -79,10 +79,15 @@ void Enemy::Update(float ElapsedTime, sf::Vector2f playerPos) {
 	}
 }
 void Enemy::Render(sf::RenderWindow &App) {
-	App.draw(*this);
+	if(hp > 0)
+		App.draw(*this);
 }
 std::string Enemy::getName() {
 	return name;
+}
+bool Enemy::isAlive()
+{
+	return hp > 0;
 }
 float Enemy::getSpeed() {
 	return speed;

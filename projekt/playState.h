@@ -31,6 +31,9 @@ private:
 	float elapsedTime;
 	float shootBuffer;
 	float playerTime;
+	int ENEMY_NUMBER = 1;
+	bool isAllEnemyDead;
+	bool isClickOnGameResult;
 	sf::Texture enemyTex;
 	sf::Texture boltTex;
 	std::unique_ptr<HUD> m_playerHUD;
