@@ -5,7 +5,7 @@
 #include "player.h"
 #include "Fireball.h"
 #include "Firebolt.h"
-#include "Enemy.h"
+#include "Dragon.h"//tu powinien byæ #include "Enemy.h"
 #include "hud.h"
 class playState: public gameState
 {
@@ -22,7 +22,8 @@ private:
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Weapon> weaponSlot;
 	std::unique_ptr<std::vector<Firebolt>> fireboltVector;
-	std::unique_ptr<std::vector<Enemy>> enemiesVector;
+	//std::unique_ptr<std::vector<Enemy>> enemiesVector;
+	std::vector<std::unique_ptr<Enemy>>  enemiesVector;
 
 	sf::Clock frameClock;
 	sf::Clock shootClock;

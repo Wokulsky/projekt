@@ -8,11 +8,9 @@
 class Enemy: public sf::Sprite
 {
 public:
-	Enemy(sf::Texture &tex);
-	~Enemy();
-	void Update(float ElapsedTime, sf::Vector2f playerPos);
-	void Render(sf::RenderWindow &App);
 
+	virtual void Update(float ElapsedTime, sf::Vector2f playerPos) = 0;
+	virtual  void Render(sf::RenderWindow &App) = 0;
 	float getSpeed();
 	int getHp();
 	int getDamage();
@@ -26,7 +24,7 @@ public:
 	void setLevel(int set);
 	void DecreaseHP(int set);
 
-private:
+protected:
 	//sf::Texture tex;
 	std::string name;
 	float speed;
@@ -37,7 +35,6 @@ private:
 	int row;
 	int animationBuffer;
 	bool flagAnimation;
-
 };
 
 #endif

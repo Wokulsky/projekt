@@ -151,7 +151,9 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="coldflame.cpp" />
+    <ClCompile Include="Dragon.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="Firebolt.cpp" />
     <ClCompile Include="game.cpp" />
@@ -170,7 +172,9 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="coldflame.h" />
+    <ClInclude Include="Dragon.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="Firebolt.h" />
     <ClInclude Include="game.h" />

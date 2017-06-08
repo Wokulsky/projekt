@@ -4,26 +4,26 @@ playState::playState(sf::RenderWindow &App){
 	player = std::make_unique<Player>();
 	elapsedTime = 0;
 	shootBuffer = 0;
+	enemyTex.loadFromFile("enemy.png");
 	weaponSlot = std::make_unique<Fireball>();
 	isClickOnGameResult = false;
-	enemyTex.loadFromFile("enemy.png");
 	boltTex.loadFromFile("firebolt2.png");
 	font.loadFromFile("Capture_it.ttf");
 	gameResultText.setColor(sf::Color::Red);
 	gameResultText.setFont(font);
 	fireboltVector = std::make_unique<std::vector<Firebolt>>();
-	enemiesVector = std::make_unique<std::vector<Enemy>>();
-	for (int i = 1; i <= ENEMY_NUMBER ; ++i) {
-		float x = App.getSize().x - App.getSize().x / 3*i;
-		float y = App.getSize().y - App.getSize().y / 3*i;
-		Enemy newEnemy(enemyTex);
-		newEnemy.setPosition(x,y);
-		enemiesVector->push_back(newEnemy);
+	//enemiesVector = std::make_unique<std::vector<Enemy>>();
+	for (int i = 0; i < ENEMY_NUMBER ; ++i) {
+		float x = App.getSize().x - App.getSize().x / 3* (i+1);
+		float y = App.getSize().y - App.getSize().y / 3*(i+1);
+		//newEnemy.setPosition(x,y);
+		//enemiesVector->push_back(newEnemy);
+		enemiesVector.push_back(std::unique_ptr<Dragon>(new Dragon(enemyTex)));
+		enemiesVector.at(i)->setPosition(x, y);
 	}
 	isAllEnemyDead = false;
 	m_playerHUD = std::make_unique<HUD>();
-	//enemiesVector->push_back(testEnemy);
-	
+
 }
 
 
@@ -47,7 +47,8 @@ void playState::Update(Game &game) {
 	playerTime += playerClock.getElapsedTime().asMilliseconds();
 	playerClock.restart();
 
-	ChecCollision();
+	if (enemiesVector.size() != 0 && player->isAlive())
+		ChecCollision();
 	
 	if (player->Update(game, elapsedTime, playerTime) && shootBuffer > weaponSlot->getFirerate()) {
 		Firebolt newBolt(weaponSlot->getSprite().getPosition(),boltTex);
@@ -59,22 +60,20 @@ void playState::Update(Game &game) {
 
 
 	for (int i = 0; i < fireboltVector->size(); i++) {
-
 		fireboltVector->at(i).Update(elapsedTime, game);
-
 		if (!fireboltVector->at(i).isAlive()) {
 			fireboltVector->erase(fireboltVector->begin() + i);
 		}
 	}
 
-	std::vector<Enemy>::iterator it_enemy;
-	int deadEnemy = 0;
-	for (it_enemy = enemiesVector->begin(); it_enemy != enemiesVector->end(); ++it_enemy) {
-		it_enemy->Update(elapsedTime, player->getPosition());
-		if (it_enemy->getHp() <= 0)
-			deadEnemy++;
+	for (int i = 0; i < enemiesVector.size(); ++i) {
+		enemiesVector.at(i)->Update(elapsedTime, player->getPosition());
+		if (!enemiesVector.at(i)->isAlive()) {
+			enemiesVector.erase(enemiesVector.begin() + i);
+		}
 	}
-	if (deadEnemy == ENEMY_NUMBER) {
+
+	if (enemiesVector.size() == 0) {
 		isAllEnemyDead = true;
 		gameResultText.setString("YOUR SOUL IS RESCUE");
 		gameResultText.setPosition(255, 200);
@@ -85,54 +84,53 @@ void playState::Update(Game &game) {
 		gameResultText.setPosition(255, 200);
 	}
 
-	//testEnemy.Update(elapsedTime, player->getPosition());
-	//std::cout << "Player position: " << player->getPosition().x << " " << player->getPosition().y << " \n";
 }
 void playState::ChecCollision() {
 	static float hitBufferPlayer = 0;
 	static float hitBufferEnemy = 0;
-	std::vector<Enemy>::iterator it_enemy;
 	//hitBuffer daje nam opóŸnienie - inaczej przy Ka¿dym pojedyñczym dotkniêciu hp spada do zera
 	//			z prostego powodu - odejmowanie ¿ycia wykonuje siê przy ka¿dym wywo³aniu, teraz jednak po 1000
-	for (it_enemy = enemiesVector->begin(); it_enemy != enemiesVector->end(); ++it_enemy) {
-		if (it_enemy->getHp() > 0 && player->isAlive()) {
-			if (player->getGlobalBounds().intersects(it_enemy->getGlobalBounds()) && hitBufferPlayer <= 0) {
-				player->DrecreaseHP(it_enemy->getDamage());
+	
+	for (int i = 0; i < enemiesVector.size(); ++i) {
+		if (enemiesVector.at(i)->getHp() > 0 && player->isAlive()) {
+			if (player->getGlobalBounds().intersects(enemiesVector.at(i)->getGlobalBounds()) && hitBufferPlayer <= 0) {
+				player->DrecreaseHP(enemiesVector.at(i)->getDamage());
 				std::cout << player->getHP() << std::endl;
 				hitBufferPlayer = 250;
 				m_playerHUD->decraseHP();
 			}
 		}
-
 	}
-	std::vector<Firebolt>::iterator it_bolt;
-	for (it_bolt = fireboltVector->begin(); it_bolt != fireboltVector->end(); ++it_bolt) {
-		for (it_enemy = enemiesVector->begin(); it_enemy != enemiesVector->end(); ++it_enemy) {
-			if (it_bolt->getGlobalBounds().intersects(it_enemy->getGlobalBounds()) && hitBufferEnemy <= 0) {
+	
+	
+	for (int i = 0; i < fireboltVector->size(); i++) {
+		for (int i = 0; i < enemiesVector.size(); ++i) {
+			if ( fireboltVector->at(i).getGlobalBounds().intersects(enemiesVector.at(i)->getGlobalBounds()) && hitBufferEnemy <= 0 && enemiesVector.at(i)->isAlive()) {
 				std::cout << "enemy get hit\n";
-				it_enemy->DecreaseHP(it_bolt->getDamage());
+				enemiesVector.at(i)->DecreaseHP(fireboltVector->at(i).getDamage());
 				hitBufferEnemy = 500;
+				fireboltVector->erase(fireboltVector->begin() + i);
+				i++;
 			}
-
 		}
 	}
+
 	hitBufferEnemy--;
 	hitBufferPlayer--;
 }
 
 void playState::Render(sf::RenderWindow &App){
+	
 	player->Render(App);
 	weaponSlot->Render(App);
-	std::vector<Firebolt>::iterator it_bolt;
 	sf::Vector2f mouse(sf::Mouse::getPosition(App));
 
-	for (it_bolt = fireboltVector->begin(); it_bolt != fireboltVector->end(); ++it_bolt) {
+	for (std::vector<Firebolt>::iterator it_bolt = fireboltVector->begin(); it_bolt != fireboltVector->end(); ++it_bolt) {
 		it_bolt->Render(App);
 	}
 
-	std::vector<Enemy>::iterator it_enemy;
-	for (it_enemy = enemiesVector->begin() ; it_enemy != enemiesVector->end(); ++it_enemy) {
-		it_enemy->Render(App);
+	for (int i = 0; i < enemiesVector.size(); ++i) {
+		enemiesVector.at(i)->Render(App);
 	}
 	m_playerHUD->Render(App);
 	if (!player->isAlive() || isAllEnemyDead) {

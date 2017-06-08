@@ -25,3 +25,13 @@ void Fireball::Update(Game &game, sf::Vector2f playerPos) {
 void Fireball::Render(sf::RenderWindow &App) {
 	App.draw(spr);
 }
+
+std::string Fireball::getBoltNameTexture()
+{
+	return std::string();
+}
+
+std::string getBoltNameTexture()
+{
+	return "firebolt2.png";
+}

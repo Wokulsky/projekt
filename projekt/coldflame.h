@@ -8,6 +8,7 @@ public:
 	~coldflame();
 	void Update(Game &game, sf::Vector2f playerPos) override;
 	void Render(sf::RenderWindow &App) override;
+	std::string getBoltNameTexture() override;
 };
 #endif
 

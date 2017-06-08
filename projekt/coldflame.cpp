@@ -21,3 +21,8 @@ void coldflame::Update(Game & game, sf::Vector2f playerPos){
 void coldflame::Render(sf::RenderWindow & App){
 	App.draw(spr);
 }
+
+std::string coldflame::getBoltNameTexture()
+{
+	return "coldbolt.png";
+}

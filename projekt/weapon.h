@@ -9,12 +9,14 @@ public:
 
 	virtual void Update(Game &game, sf::Vector2f playerPos)=0;
 	virtual void Render(sf::RenderWindow &App) = 0;
+	virtual std::string getBoltNameTexture() = 0;
 
 	sf::Sprite getSprite();
 	float getFirerate();
-
 	void setFirerate(float set);
 	void setPosition(float x, float y);
+
+	
 
 protected:
 	sf::Texture tex;
