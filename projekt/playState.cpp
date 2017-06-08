@@ -4,7 +4,6 @@ playState::playState(sf::RenderWindow &App){
 	player = std::make_unique<Player>();
 	elapsedTime = 0;
 	shootBuffer = 0;
-	enemyTex.loadFromFile("enemy.png");
 	weaponSlot = std::make_unique<Fireball>();
 	isClickOnGameResult = false;
 	boltTex.loadFromFile("firebolt2.png");
@@ -18,7 +17,7 @@ playState::playState(sf::RenderWindow &App){
 		float y = App.getSize().y - App.getSize().y / 3*(i+1);
 		//newEnemy.setPosition(x,y);
 		//enemiesVector->push_back(newEnemy);
-		enemiesVector.push_back(std::unique_ptr<Dragon>(new Dragon(enemyTex)));
+		enemiesVector.push_back(std::unique_ptr<Dragon>(new Dragon()));
 		enemiesVector.at(i)->setPosition(x, y);
 	}
 	isAllEnemyDead = false;

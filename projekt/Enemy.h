@@ -35,6 +35,7 @@ protected:
 	int row;
 	int animationBuffer;
 	bool flagAnimation;
+	sf::Texture my_tex;
 };
 
 #endif

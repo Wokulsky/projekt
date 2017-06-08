@@ -6,10 +6,12 @@ class Dragon :
 	public Enemy
 {
 public:
-	Dragon(sf::Texture &tex);
+	Dragon();
 	~Dragon();
 	void Render(sf::RenderWindow &App) override;
 	void Update(float ElapsedTime, sf::Vector2f playerPos) override;
+private:
+
 };
 
 #endif // !DRAGON_H

@@ -2,7 +2,7 @@
 
 
 
-Dragon::Dragon(sf::Texture &tex)
+Dragon::Dragon()
 {
 
 	speed = 0.25;
@@ -12,9 +12,10 @@ Dragon::Dragon(sf::Texture &tex)
 	level = 1;
 	row = 3;
 	//tex.loadFromFile("enemy.png");
-	this->setTexture(tex);
+	my_tex.loadFromFile("enemy.png");
+	this->setTexture(my_tex);
 	this->setTextureRect(sf::IntRect(0, 0, 100, 100));
-	animation = std::make_shared<Animation>(tex, sf::Vector2u(4, 4), 100.0);
+	animation = std::make_shared<Animation>(my_tex, sf::Vector2u(4, 4), 100.0);
 	//Buffer by nie by³o nag³ych zmian kierunków 
 	animationBuffer = 0;
 	//Aby nie dominowa³y dwa kierunki
