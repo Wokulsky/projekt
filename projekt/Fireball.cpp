@@ -26,6 +26,11 @@ void Fireball::Render(sf::RenderWindow &App) {
 	App.draw(spr);
 }
 
+std::unique_ptr<Bolt> Fireball::getBolt()
+{
+	return std::unique_ptr<Bolt>(new Firebolt(getSprite().getPosition()));
+}
+
 std::string Fireball::getBoltNameTexture()
 {
 	return std::string();

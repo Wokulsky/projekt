@@ -47,7 +47,7 @@ void playState::Update(Game &game) {
 		ChecCollision();
 	
 	if (player->Update(game, elapsedTime, playerTime) && shootBuffer > weaponSlot->getFirerate()) {
-		fireboltVector.push_back(std::unique_ptr<Firebolt>(new Firebolt(weaponSlot->getSprite().getPosition())));
+		fireboltVector.push_back(weaponSlot->getBolt());
 		shootBuffer = 0;
 	}
 	
@@ -99,8 +99,8 @@ void playState::ChecCollision() {
 	for (int i = 0; i < fireboltVector.size(); i++) {
 		for (int i = 0; i < enemiesVector.size(); ++i) {
 			if ( fireboltVector.at(i)->getGlobalBounds().intersects(enemiesVector.at(i)->getGlobalBounds()) && hitBufferEnemy <= 0 && enemiesVector.at(i)->isAlive()) {
-				std::cout << "enemy get hit\n";
 				enemiesVector.at(i)->DecreaseHP(fireboltVector.at(i)->getDamage());
+				std::cout << "enemy get hit " << enemiesVector.at(i)->getHp()<<"\n";
 				hitBufferEnemy = 500;
 				fireboltVector.erase(fireboltVector.begin() + i);
 				i++;
