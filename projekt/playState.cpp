@@ -10,6 +10,8 @@ playState::playState(sf::RenderWindow &App){
 	gameResultText.setPosition(255, 200);
 	gameResultText.setColor(sf::Color::Red);
 	gameResultText.setFont(font);
+	bool isChangeWepon = false;
+	bool isFireball = true;
 
 	for (int i = 0; i < ENEMY_NUMBER ; ++i) {
 		float x = App.getSize().x - App.getSize().x / 3* (i+1);
@@ -27,9 +29,23 @@ playState::~playState(){
 
 }
 void playState::HandleEvent(Game& game) {
+	
+	if (isChangeWepon) {
+		if (isFireball) {
+			weaponSlot = std::make_unique<coldflame>();
+			isFireball = false;
+		}
+		else {
+			weaponSlot = std::make_unique<Fireball>();
+			isFireball = true;
+		}
+		isChangeWepon = false;
+	}
+
 	if (isClickOnGameResult) {
 		game.changeState(Game::gameStates::MAINMENU);
 	}
+
 
 }
 void playState::Update(Game &game) {
@@ -79,6 +95,7 @@ void playState::Update(Game &game) {
 
 }
 void playState::ChecCollision() {
+
 	static float hitBufferPlayer = 0;
 	static float hitBufferEnemy = 0;
 	//hitBuffer daje nam opóŸnienie - inaczej przy Ka¿dym pojedyñczym dotkniêciu hp spada do zera
@@ -97,10 +114,10 @@ void playState::ChecCollision() {
 	
 	
 	for (int i = 0; i < fireboltVector.size(); i++) {
-		for (int i = 0; i < enemiesVector.size(); ++i) {
-			if ( fireboltVector.at(i)->getGlobalBounds().intersects(enemiesVector.at(i)->getGlobalBounds()) && hitBufferEnemy <= 0 && enemiesVector.at(i)->isAlive()) {
-				enemiesVector.at(i)->DecreaseHP(fireboltVector.at(i)->getDamage());
-				std::cout << "enemy get hit " << enemiesVector.at(i)->getHp()<<"\n";
+		for (int j = 0; j < enemiesVector.size(); ++j) {
+			if ( fireboltVector.at(i)->getGlobalBounds().intersects(enemiesVector.at(j)->getGlobalBounds()) && hitBufferEnemy <= 0 && enemiesVector.at(j)->isAlive()) {
+				enemiesVector.at(j)->DecreaseHP(fireboltVector.at(i)->getDamage());
+				std::cout << "enemy get hit " <<"\n";
 				hitBufferEnemy = 500;
 				fireboltVector.erase(fireboltVector.begin() + i);
 				i++;
@@ -133,6 +150,9 @@ void playState::Render(sf::RenderWindow &App){
 	
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && gameResultText.getGlobalBounds().contains(mouse)) {
 		isClickOnGameResult = true;
+	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
+		isChangeWepon = true;
 	}
 	//testEnemy.Render(App);
 }

@@ -1,7 +1,7 @@
 #include "coldflame.h"
 
 coldflame::coldflame(){
-	setFirerate(10);
+	setFirerate(100);
 	tex.loadFromFile("cold_flame.png");
 	spr.setTexture(tex);
 }
@@ -20,6 +20,11 @@ void coldflame::Update(Game & game, sf::Vector2f playerPos){
 
 void coldflame::Render(sf::RenderWindow & App){
 	App.draw(spr);
+}
+
+std::unique_ptr<Bolt> coldflame::getBolt()
+{
+	return std::unique_ptr<Bolt>(new Coldbolt(getSprite().getPosition()));
 }
 
 std::string coldflame::getBoltNameTexture()

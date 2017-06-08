@@ -11,7 +11,6 @@ Dragon::Dragon()
 	damage = 20;
 	level = 1;
 	row = 3;
-	//tex.loadFromFile("enemy.png");
 	my_tex.loadFromFile("enemy.png");
 	this->setTexture(my_tex);
 	this->setTextureRect(sf::IntRect(0, 0, 100, 100));
@@ -29,7 +28,6 @@ Dragon::~Dragon()
 
 void Dragon::Render(sf::RenderWindow & App)
 {
-	if (hp > 0)
 		App.draw(*this);
 }
 

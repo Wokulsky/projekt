@@ -4,7 +4,7 @@
 #include "gamestates.h"
 #include "player.h"
 #include "Fireball.h"
-#include "Firebolt.h"
+#include "coldflame.h"
 #include "EnemyFactory.h"
 #include "hud.h"
 class playState: public gameState
@@ -35,7 +35,8 @@ private:
 	int ENEMY_NUMBER = 1;
 	bool isAllEnemyDead;
 	bool isClickOnGameResult;
-
+	bool isChangeWepon;
+	bool isFireball;
 	EnemyFactory enemyFactory;
 	std::unique_ptr<HUD> m_playerHUD;
 	sf::Text gameResultText;

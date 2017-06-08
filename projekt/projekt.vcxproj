@@ -151,6 +151,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Bolt.cpp" />
     <ClCompile Include="button.cpp" />
+    <ClCompile Include="Coldbolt.cpp" />
     <ClCompile Include="coldflame.cpp" />
     <ClCompile Include="Dragon.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Bolt.h" />
     <ClInclude Include="button.h" />
+    <ClInclude Include="Coldbolt.h" />
     <ClInclude Include="coldflame.h" />
     <ClInclude Include="Dragon.h" />
     <ClInclude Include="Enemy.h" />

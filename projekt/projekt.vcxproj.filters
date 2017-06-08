@@ -66,6 +66,9 @@
     <ClCompile Include="Bolt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Coldbolt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -121,6 +124,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bolt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Coldbolt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
