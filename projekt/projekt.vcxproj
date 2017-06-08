@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Bolt.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="coldflame.cpp" />
     <ClCompile Include="Dragon.cpp" />
@@ -166,10 +167,12 @@
     <ClCompile Include="weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Bolt.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="coldflame.h" />
     <ClInclude Include="Dragon.h" />

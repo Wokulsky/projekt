@@ -6,16 +6,14 @@ playState::playState(sf::RenderWindow &App){
 	shootBuffer = 0;
 	weaponSlot = std::make_unique<Fireball>();
 	isClickOnGameResult = false;
-	boltTex.loadFromFile("firebolt2.png");
 	font.loadFromFile("Capture_it.ttf");
+	gameResultText.setPosition(255, 200);
 	gameResultText.setColor(sf::Color::Red);
 	gameResultText.setFont(font);
-	fireboltVector = std::make_unique<std::vector<Firebolt>>();
 
 	for (int i = 0; i < ENEMY_NUMBER ; ++i) {
 		float x = App.getSize().x - App.getSize().x / 3* (i+1);
 		float y = App.getSize().y - App.getSize().y / 3*(i+1);
-		//enemiesVector.push_back(std::unique_ptr<Dragon>(new Dragon()));
 		enemiesVector.push_back(enemyFactory.getEnemy(EnemyFactory::enemyType::DRAGON));
 		enemiesVector.at(i)->setPosition(x, y);
 	}
@@ -49,18 +47,17 @@ void playState::Update(Game &game) {
 		ChecCollision();
 	
 	if (player->Update(game, elapsedTime, playerTime) && shootBuffer > weaponSlot->getFirerate()) {
-		Firebolt newBolt(weaponSlot->getSprite().getPosition(),boltTex);
-		fireboltVector->push_back(newBolt);
+		fireboltVector.push_back(std::unique_ptr<Firebolt>(new Firebolt(weaponSlot->getSprite().getPosition())));
 		shootBuffer = 0;
 	}
 	
 	weaponSlot->Update(game, player->getPosition());
 
 
-	for (int i = 0; i < fireboltVector->size(); i++) {
-		fireboltVector->at(i).Update(elapsedTime, game);
-		if (!fireboltVector->at(i).isAlive()) {
-			fireboltVector->erase(fireboltVector->begin() + i);
+	for (int i = 0; i < fireboltVector.size(); i++) {
+		fireboltVector.at(i)->Update(elapsedTime, game);
+		if (!fireboltVector.at(i)->isAlive()) {
+			fireboltVector.erase(fireboltVector.begin() + i);
 		}
 	}
 
@@ -74,12 +71,10 @@ void playState::Update(Game &game) {
 	if (enemiesVector.size() == 0) {
 		isAllEnemyDead = true;
 		gameResultText.setString("YOUR SOUL IS RESCUE");
-		gameResultText.setPosition(255, 200);
-		gameResultText.setColor(sf::Color::Blue);
+		gameResultText.setColor(sf::Color::White);
 	}
 	if (player->getHP() <= 0) {
 		gameResultText.setString("YOUR SOUL IS MINE");
-		gameResultText.setPosition(255, 200);
 	}
 
 }
@@ -101,13 +96,13 @@ void playState::ChecCollision() {
 	}
 	
 	
-	for (int i = 0; i < fireboltVector->size(); i++) {
+	for (int i = 0; i < fireboltVector.size(); i++) {
 		for (int i = 0; i < enemiesVector.size(); ++i) {
-			if ( fireboltVector->at(i).getGlobalBounds().intersects(enemiesVector.at(i)->getGlobalBounds()) && hitBufferEnemy <= 0 && enemiesVector.at(i)->isAlive()) {
+			if ( fireboltVector.at(i)->getGlobalBounds().intersects(enemiesVector.at(i)->getGlobalBounds()) && hitBufferEnemy <= 0 && enemiesVector.at(i)->isAlive()) {
 				std::cout << "enemy get hit\n";
-				enemiesVector.at(i)->DecreaseHP(fireboltVector->at(i).getDamage());
+				enemiesVector.at(i)->DecreaseHP(fireboltVector.at(i)->getDamage());
 				hitBufferEnemy = 500;
-				fireboltVector->erase(fireboltVector->begin() + i);
+				fireboltVector.erase(fireboltVector.begin() + i);
 				i++;
 			}
 		}
@@ -123,8 +118,8 @@ void playState::Render(sf::RenderWindow &App){
 	weaponSlot->Render(App);
 	sf::Vector2f mouse(sf::Mouse::getPosition(App));
 
-	for (std::vector<Firebolt>::iterator it_bolt = fireboltVector->begin(); it_bolt != fireboltVector->end(); ++it_bolt) {
-		it_bolt->Render(App);
+	for (int i = 0; i < fireboltVector.size(); ++i) {
+		fireboltVector.at(i)->Render(App);
 	}
 
 	for (int i = 0; i < enemiesVector.size(); ++i) {

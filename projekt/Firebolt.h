@@ -1,26 +1,20 @@
 #ifndef FIREBOLT_H
 #define FIREBOLT_H
 
-#include "game.h"
-enum LastKey {Free,Down,Up,Left,Right};
-class Firebolt: public sf::Sprite
+#include "Bolt.h"
+
+class Firebolt: public Bolt
 {
 public:
-	Firebolt(sf::Vector2f start_pos, sf::Texture &tex);
+	Firebolt(sf::Vector2f start_pos);
 	~Firebolt();
-	bool Update(float ElapsedTime, Game& game);
-	void Render(sf::RenderWindow& App);
-	void ChangeTexture(sf::Texture &tex);
-
-	bool isAlive();
-	int getDamage();
+	bool Update(float ElapsedTime, Game& game) override;
+	void Render(sf::RenderWindow& App) override;
+	void ChangeTexture(sf::Texture &tex) override;
 
 private:
+	sf::Texture mytexture;
 
-	int damege;
-	float speed;
-	bool alive;
-	LastKey key;
 };
 
 #endif // !FIREBOLT_H

@@ -5,7 +5,7 @@
 #include "player.h"
 #include "Fireball.h"
 #include "Firebolt.h"
-#include "EnemyFactory.h"//tu powinien byæ #include "Enemy.h"
+#include "EnemyFactory.h"
 #include "hud.h"
 class playState: public gameState
 {
@@ -21,25 +21,23 @@ private:
 	void ChecCollision();
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Weapon> weaponSlot;
-	std::unique_ptr<std::vector<Firebolt>> fireboltVector;
-	//std::unique_ptr<std::vector<Enemy>> enemiesVector;
+	//std::unique_ptr<std::vector<Firebolt>> fireboltVector;
+	std::vector<std::unique_ptr<Bolt>> fireboltVector;
 	std::vector<std::unique_ptr<Enemy>>  enemiesVector;
 
 	sf::Clock frameClock;
 	sf::Clock shootClock;
 	sf::Clock playerClock;
-	//Enemy testEnemy;
+
 	float elapsedTime;
 	float shootBuffer;
 	float playerTime;
 	int ENEMY_NUMBER = 1;
 	bool isAllEnemyDead;
 	bool isClickOnGameResult;
-	EnemyFactory enemyFactory;
-	sf::Texture enemyTex;
-	sf::Texture boltTex;
-	std::unique_ptr<HUD> m_playerHUD;
 
+	EnemyFactory enemyFactory;
+	std::unique_ptr<HUD> m_playerHUD;
 	sf::Text gameResultText;
 	sf::Sprite gameResultSprite;
 	sf::Font font;

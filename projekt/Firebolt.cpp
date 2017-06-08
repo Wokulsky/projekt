@@ -2,12 +2,13 @@
 
 
 
-Firebolt::Firebolt(sf::Vector2f start_pos,sf::Texture &tex)
+Firebolt::Firebolt(sf::Vector2f start_pos)
 {
 	damege = 15;
 	speed = 0.5;
 	alive = true;
-	ChangeTexture(tex);
+	mytexture.loadFromFile("firebolt2.png");
+	ChangeTexture(mytexture);
 	this->setPosition(start_pos);
 	key = LastKey::Free;
 }
@@ -84,12 +85,6 @@ bool Firebolt::Update(float ElapsedTime, Game& game){
 }
 void Firebolt::Render(sf::RenderWindow& App) {
 	App.draw(*this);
-}
-bool Firebolt::isAlive() {
-	return alive;
-}
-int Firebolt::getDamage() {
-	return damege;
 }
 void Firebolt::ChangeTexture(sf::Texture &tex) {
 	this->setTexture(tex);
