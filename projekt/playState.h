@@ -5,7 +5,7 @@
 #include "player.h"
 #include "Fireball.h"
 #include "Firebolt.h"
-#include "Dragon.h"//tu powinien byæ #include "Enemy.h"
+#include "EnemyFactory.h"//tu powinien byæ #include "Enemy.h"
 #include "hud.h"
 class playState: public gameState
 {
@@ -35,6 +35,7 @@ private:
 	int ENEMY_NUMBER = 1;
 	bool isAllEnemyDead;
 	bool isClickOnGameResult;
+	EnemyFactory enemyFactory;
 	sf::Texture enemyTex;
 	sf::Texture boltTex;
 	std::unique_ptr<HUD> m_playerHUD;

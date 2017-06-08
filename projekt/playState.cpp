@@ -11,13 +11,12 @@ playState::playState(sf::RenderWindow &App){
 	gameResultText.setColor(sf::Color::Red);
 	gameResultText.setFont(font);
 	fireboltVector = std::make_unique<std::vector<Firebolt>>();
-	//enemiesVector = std::make_unique<std::vector<Enemy>>();
+
 	for (int i = 0; i < ENEMY_NUMBER ; ++i) {
 		float x = App.getSize().x - App.getSize().x / 3* (i+1);
 		float y = App.getSize().y - App.getSize().y / 3*(i+1);
-		//newEnemy.setPosition(x,y);
-		//enemiesVector->push_back(newEnemy);
-		enemiesVector.push_back(std::unique_ptr<Dragon>(new Dragon()));
+		//enemiesVector.push_back(std::unique_ptr<Dragon>(new Dragon()));
+		enemiesVector.push_back(enemyFactory.getEnemy(EnemyFactory::enemyType::DRAGON));
 		enemiesVector.at(i)->setPosition(x, y);
 	}
 	isAllEnemyDead = false;
